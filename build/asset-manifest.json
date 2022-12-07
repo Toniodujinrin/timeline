@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/static/css/main.39d451e1.css",
+    "main.js": "/static/js/main.26747d2a.js",
+    "static/media/illustration.svg": "/static/media/illustration.49a3ed91386b964150e0ef1bcd4f0605.svg",
+    "static/media/illustration2.svg": "/static/media/illustration2.fa6a4a12ef00447b17459e57780af6e8.svg",
+    "static/media/calender.svg": "/static/media/calender.b43ae4ff98f0c3ce7ead6058ecce60aa.svg",
+    "static/media/edit.svg": "/static/media/edit.4abfd8c47b635f5cd495a49cb4ef685b.svg",
+    "index.html": "/index.html",
+    "static/media/trash.svg": "/static/media/trash.0b6bb211b7afe638b48dd6c8f180cf22.svg",
+    "static/media/hamburgerLight.svg": "/static/media/hamburgerLight.0bdf3d45d03cc695080eb175094145b6.svg",
+    "static/media/hamburgerDark.svg": "/static/media/hamburgerDark.136aff444b1a61265e891f1ed4919b1f.svg",
+    "static/media/chevron-left.svg": "/static/media/chevron-left.ce973abbe4812b82588676231116ba59.svg",
+    "static/media/chevron-right.svg": "/static/media/chevron-right.72c79cc2f988bf5bae36377d5257e4d4.svg",
+    "static/media/logo.svg": "/static/media/logo.a917d3a48448767a9a322a82ab36a5ea.svg",
+    "static/media/Icon.svg": "/static/media/Icon.09235d72a1853dd30a6550c7952074c9.svg",
+    "static/media/leftArrow.svg": "/static/media/leftArrow.b8cc4130f678a41e5bbae141363988ca.svg",
+    "main.39d451e1.css.map": "/static/css/main.39d451e1.css.map",
+    "main.26747d2a.js.map": "/static/js/main.26747d2a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.39d451e1.css",
+    "static/js/main.26747d2a.js"
+  ]
+}
