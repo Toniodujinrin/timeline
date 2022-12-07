@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import Signup from "./signup";
 import Login from "./login";
 import { QueryClient, QueryClientProvider } from "react-query";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Wrapper from "./NavWrapper";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react";
@@ -11,12 +12,6 @@ import Home from "./home";
 import NotFound from "./notFound";
 export const themeContext = React.createContext();
 const App = () => {
-  const user =
-    typeof localStorage.getItem("user") == "string" &&
-    localStorage.getItem("user").length !== 0
-      ? JSON.parse(localStorage.getItem("user"))
-      : null;
-
   const client = new QueryClient();
 
   const [darkMode, setDarkMode] = useState(false);
@@ -35,16 +30,7 @@ const App = () => {
         <QueryClientProvider client={client}>
           <React.Fragment>
             <Routes>
-              <Route
-                path="/dashboard/*"
-                element={
-                  user && user.expires > Date.now() ? (
-                    <Wrapper />
-                  ) : (
-                    <Navigate to="/login" replace />
-                  )
-                }
-              />
+              <Route path="/dashboard/*" element={<Wrapper />} />
 
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />
@@ -54,6 +40,7 @@ const App = () => {
           </React.Fragment>
         </QueryClientProvider>
       </themeContext.Provider>
+      <ToastContainer />
     </div>
   );
 };

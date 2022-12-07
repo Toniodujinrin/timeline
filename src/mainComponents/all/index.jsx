@@ -1,10 +1,10 @@
 import Wrapper from "../../NavWrapper";
-
+import { motion } from "framer-motion";
 import TaskPill from "../../compnents/Dashboard/TaskPill";
 import { useEffect, useState, useContext } from "react";
 import AddTask from "../../compnents/addTask";
 import DeleteTaskPop from "../../compnents/addTask/deleteTask";
-
+import { toast } from "react-toastify";
 import FilterComp from "../../compnents/allTaskComponents/filter";
 import Sort from "../../compnents/allTaskComponents/Sort";
 import SearchBar from "../../compnents/allTaskComponents/SearchBar";
@@ -144,10 +144,30 @@ const All = ({}) => {
 
     try {
       const data = await postTask(TaskObject);
-
+      if (data) {
+        toast.success("task successfuly created", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
       taskData.unshift(TaskObject);
     } catch (error) {
-      alert("error occured while creating task");
+      toast.error("error occured while creating task", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
       setData(originalData);
       setTaskData(originalData);
     }
@@ -164,8 +184,29 @@ const All = ({}) => {
     try {
       console.log(taskObject);
       const data = await putTask(taskObject);
+      if (data) {
+        toast.success("task successfuly updated", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
     } catch (error) {
-      alert("error occured trying to update the task");
+      toast.error("error occured trying to update the task", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
 
     setShowing(false);
@@ -179,8 +220,33 @@ const All = ({}) => {
 
     try {
       const data = await deleteTask(id);
+      if (data) {
+        toast.success("task successfuly deleted", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
     } catch (error) {
-      window.alert("an error occured when trying to delete the task");
+      toast.error(
+        ("an error occured when trying to delete the task",
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        })
+      );
+
       setTaskData(originalTaskData);
       setData(originalTaskData);
     }
@@ -241,8 +307,13 @@ const All = ({}) => {
           <div className="w-full">
             {taskData && taskData.length > 0 && results === true ? (
               <div className="w-full lg:justify-items-center flex items-center  flex-col mx-auto lg:grid lg:grid-cols-3 ">
-                {taskData.map((task) => (
-                  <div className="w-full h-full flex items-center justify-center">
+                {taskData.map((task, index) => (
+                  <motion.div
+                    initial={{ x: 100, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: index / 8, duration: 0.5 }}
+                    className="w-full h-full flex items-center justify-center"
+                  >
                     <TaskPill
                       setPopUp={setPopUp}
                       setTaskId={setTaskId}
@@ -256,7 +327,7 @@ const All = ({}) => {
                       completed={task.completed}
                       dueTime={task.due}
                     />
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             ) : (

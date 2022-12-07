@@ -38,7 +38,7 @@ const NavButton = ({ isActive, text, path, onClick }) => {
   return (
     <Link to={path}>
       <button
-        onClick={text == "Log out" ? navigate("/logou") : onClick}
+        onClick={text == "Log out" ? logout : onClick}
         className={` transition-[100ms] inline-flex w-full h-[56px]  ${
           isActive
             ? "text-timeline border-l-4 border-timeline border-solid bg-[#303030]   py-[15px] "
@@ -81,17 +81,13 @@ const SideBar = ({ isShowing, setOpen }) => {
             isActive={location.pathname == "/dashboard/calendar"}
             path="/dashboard/calendar"
           />
-          <NavButton
-            text="Timers"
-            isActive={location.pathname == "/dashboard/timers"}
-            path="/dashboard/timers"
-          />
+       
           <NavButton
             text="Settings"
             isActive={location.pathname == "/dashboard/settings"}
             path="/dashboard/settings"
           />
-          <NavButton text="Log out" isActive={location.pathname == "/login"} />
+          <NavButton text="Log out" isActive={location.pathname == "/login"} path="/login" />
 
           <div
             className={` transition-[100ms] inline-flex w-full h-[56px]  font-medium poppinsFont text-[16px]   px-[16px] items-center gap-x-[20px]`}
@@ -141,12 +137,7 @@ const SideBar = ({ isShowing, setOpen }) => {
               path="/dashboard/calendar"
               onClick={setOpen}
             />
-            <NavButton
-              text="Timers"
-              isActive={location.pathname == "/dashboard/timers"}
-              path="/dashboard/timers"
-              onClick={setOpen}
-            />
+           
             <NavButton
               text="Settings"
               isActive={location.pathname == "/dashboard/settings"}

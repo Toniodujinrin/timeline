@@ -1,5 +1,5 @@
 import SideBar from "../compnents/Dashboard/SideNav";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import React from "react";
 import TopNav from "../compnents/Dashboard/topnav";
 import { useState, useContext } from "react";
@@ -13,13 +13,27 @@ import Settings from "../mainComponents/settings";
 export const DataContext = React.createContext();
 
 const Wrapper = ({ children }) => {
+  const navigate = useNavigate();
   const { data, status } = useQuery("tasks", getData);
-
+  const user =
+    typeof localStorage.getItem("user") == "string" &&
+    localStorage.getItem("user").length !== 0
+      ? JSON.parse(localStorage.getItem("user"))
+      : null;
   const [isShowing, setShowing] = useState(false);
   const [Data, setData] = useState(data);
   const setOpen = () => {
     setShowing(!isShowing);
   };
+
+  const verifyLoggedIn = () => {
+    if (user && user.expires > Date.now()) {
+      return;
+    } else {
+      navigate("/login", { replace: true });
+    }
+  };
+  verifyLoggedIn();
 
   return (
     <DataContext.Provider value={data}>
@@ -42,13 +56,14 @@ const Wrapper = ({ children }) => {
                     <Route path="all/edit/:id" element={<All />} />
                     <Route path="all" element={<All />} />
                     <Route path="" element={<Dashboard />} />
+                    <Route path="calendar/view" element={<Calender />} />
                     <Route path="calendar" element={<Calender />} />
                     <Route path="settings" element={<Settings />} />
                   </Routes>
                 </div>
               ) : (
                 <div className=" w-full min-h-[calc(100vh-100px)] dark:bg-black bg-white pl-[30px] pr-[40px] text-black dark:text-white  pb-[43px]">
-                  Could not get data from server try login in another time
+                  Could not get data from server check connection and try again
                 </div>
               )}
             </div>
@@ -61,18 +76,21 @@ const Wrapper = ({ children }) => {
             ) : status == "success" && data ? (
               <div className="pt-[50px]">
                 <Routes>
+                  <Route path="calendar/view" element={<Calender />} />
                   <Route path="all/add" element={<All />} />
                   <Route path="all/edit/:id" element={<All />} />
                   <Route path="all" element={<All />} />
                   <Route path="" element={<Dashboard />} />
+
                   <Route path="calendar" element={<Calender />} />
+
                   <Route path="settings" element={<Settings />} />
                 </Routes>
               </div>
             ) : (
               <div className=" h-screen w-full text-center">
                 <h1 className="text-black dark:text-white">
-                  Could not get data from server try login in another time
+                  Could not get data from server check connection and try again
                 </h1>
               </div>
             )}

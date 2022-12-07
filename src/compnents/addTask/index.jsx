@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import leftArrow from "../../assets/leftArrow.svg";
-p;
+
 import { useQuery } from "react-query";
 import { DataContext } from "./../../NavWrapper/index";
 

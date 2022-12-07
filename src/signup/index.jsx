@@ -88,7 +88,7 @@ const Signup = () => {
         };
 
         const { data } = await axios.post(
-          "http://127.0.0.1:3200/users",
+          "https://timeline-backend.vercel.app/users",
           payload
         );
         if (typeof data == "object" && data !== null) {

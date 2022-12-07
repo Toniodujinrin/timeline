@@ -25,7 +25,7 @@ const TaskCard = ({ Data, setCall, call }) => {
         </h1>
         <p
           onClick={() => {
-            <Link to="/dashboard/all"></Link>;
+            navigate("/dashboard/all");
           }}
           className="text-timeline text-[16px] cursor-pointer "
         >

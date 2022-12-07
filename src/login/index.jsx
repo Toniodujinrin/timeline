@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useCookies } from "react-cookie";
 
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ const Login = () => {
           password: password,
         };
         const { data } = await axios.post(
-          "http://127.0.0.1:3200/tokens",
+          "https://timeline-backend.vercel.app/tokens",
           payload
         );
         if (typeof data == "object" && data !== null) {
@@ -72,12 +73,40 @@ const Login = () => {
           error.response.status < 500
         ) {
           if (error.response.status == 404) {
-            alert("user does not exist in the database");
+            toast.error("user does not exist in the database", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
           } else {
-            alert("email or password incorrect");
+            toast.error("email or password incorrect", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
           }
         } else {
-          alert("an unexpected error occured please try to login later");
+          toast.warn("an unexpected error occured please try to login later", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+
           console.log(error);
         }
       }

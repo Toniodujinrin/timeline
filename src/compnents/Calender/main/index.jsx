@@ -2,16 +2,25 @@ import { getMonth } from "../calenderUtils";
 import Month from "../Month";
 import CalenderHeader from "../CalenderHeader";
 import React from "react";
-
+import { DataContext } from "../../../NavWrapper";
 import dayjs from "dayjs";
 import { useState, useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 const MainCalender = ({ Data }) => {
-  const [popUpShowing, setPopUpShowing] = useState(false);
-  const [monthIndex, setMonthIndex] = useState(dayjs().month());
+  const [searchParams, setSearchParams] = useSearchParams({ id: "" });
+  const id = searchParams.get("id");
+  const item = Data.filter((task) => task._id == id)[0];
+  const [taskInfo, setTaskInfo] = useState(item ? item : {});
+  const [popUpShowing, setPopUpShowing] = useState(item ? true : false);
+  const [monthIndex, setMonthIndex] = useState(
+    item
+      ? dayjs(taskInfo.due).month() +
+          (dayjs(taskInfo.due).year() - dayjs().year()) * 12
+      : dayjs().month()
+  );
+
   const [currentMonth, setCurrentMonth] = useState(getMonth(monthIndex));
-  const [taskInfo, setTaskInfo] = useState({});
 
   useEffect(() => {
     setCurrentMonth(getMonth(monthIndex));

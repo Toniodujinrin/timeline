@@ -6,8 +6,12 @@ import axios from "axios";
 import { DataContext } from "../../NavWrapper";
 import { config } from "../../data-store";
 import { deleteUser } from "../../data-store";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const Settings = () => {
+  const navigate = useNavigate();
   const [deletePopUp, setDeletePopUp] = useState(false);
   const [shouldDelete, setShouldDelete] = useState(false);
   const userData = useContext(DataContext);
@@ -44,14 +48,15 @@ const Settings = () => {
       },
       { abortEarly: false }
     );
-    if (error) {
+    if (error && password.length) {
       const errorArray = { ...errors };
 
-      errorArray.password = error.details.find(
-        (item) => item.path[0] == ["password"]
-      )
-        ? error.details.find((item) => item.path[0] == ["password"]).message
-        : "";
+      errorArray.password =
+        password.length === 0
+          ? ""
+          : error.details.find((item) => item.path[0] == ["password"])
+          ? error.details.find((item) => item.path[0] == ["password"]).message
+          : "";
       errorArray.firstName = error.details.find(
         (item) => item.path[0] == ["firstName"]
       )
@@ -62,11 +67,12 @@ const Settings = () => {
       )
         ? error.details.find((item) => item.path[0] == ["lastName"]).message
         : "";
-      errorArray.confirm = error.details.find(
-        (item) => item.path[0] == ["confirm"]
-      )
-        ? error.details.find((item) => item.path[0] == ["confirm"]).message
-        : "";
+      errorArray.confirm =
+        password.length === 0
+          ? ""
+          : error.details.find((item) => item.path[0] == ["confirm"])
+          ? error.details.find((item) => item.path[0] == ["confirm"]).message
+          : "";
       setErrors(errorArray);
     } else {
       setErrors(false);
@@ -80,12 +86,21 @@ const Settings = () => {
         };
 
         const data = await axios.put(
-          "http://127.0.0.1:3200/users",
+          "https://timeline-backend.vercel.app/users",
           payload,
           config
         );
         if (data) {
-          alert("successfully updated user");
+          toast.success("user successfuly updated", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
         }
       } catch (error) {
         if (
@@ -112,6 +127,21 @@ const Settings = () => {
   const initDelete = () => {
     try {
       const data = deleteUser(userData.email);
+      if (data) {
+        toast.success("user successfuly deleted", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+
+        navigate("/signup");
+        localStorage.removeItem("user");
+      }
     } catch (error) {
       alert("could not delete user");
     }
@@ -120,8 +150,13 @@ const Settings = () => {
     <div className="h-screen flex flex-col justify-between">
       {deletePopUp && (
         <div className="w-full h-full fixed z-30 flex justify-center items-center ">
-          <div className="lg:w-[35%] w-[80%] h-[40%]  items-center lg:mr-[200px] lg: mb-[100px] flex  flex-col justify-around dark:bg-[#363636] rounded-md bg-slate-50 ">
-            <h1 className="text-center text-[21px]">
+          <motion.div
+            initial={{ y: -100 }}
+            animate={{ y: 0 }}
+            exit={{ y: -100 }}
+            className="lg:w-[35%] w-[80%] h-[40%] border border-[#cccccc]  items-center lg:mr-[200px] lg: mb-[100px] flex  flex-col justify-around dark:bg-[#363636] rounded-md bg-slate-50 "
+          >
+            <h1 className="text-center text-black dark:text-white  text-[21px]">
               Are you sure you want to delete your account?
             </h1>
             <div className="flex flex-row gap-x-8">
@@ -140,7 +175,7 @@ const Settings = () => {
                 Delete
               </button>
             </div>
-          </div>
+          </motion.div>
         </div>
       )}
       <div>
@@ -199,7 +234,7 @@ const Settings = () => {
           >
             <LoadButton
               content={"Delete Account"}
-              isLoading={isLoading}
+              isLoading={false}
               submit={Delete}
               color="bg-[#FF452C]"
             />

@@ -6,6 +6,8 @@ import calendar from "../../../assets/calender.svg";
 import trash from "../../../assets/trash.svg";
 import check from "../../../assets/Icon.svg";
 import { putTask } from "../../../data-store";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const TaskPill = ({
   details,
@@ -20,6 +22,7 @@ const TaskPill = ({
   setPopUp,
 }) => {
   const [isComplete, setComplete] = useState(completed);
+  const navigate = useNavigate();
   const setCompleted = async () => {
     setComplete(!isComplete);
 
@@ -37,7 +40,7 @@ const TaskPill = ({
   const [showActions, setShowActions] = useState(false);
   return (
     <div className="h-[300px] text-black dark:text-white my-4 w-[90%] flex flex-col dark:bg-[#262626] dark:border-black justify-between  rounded-md  border boder-solid p-4 shadow-xl  ]">
-      <div className="h-[80%] w-full">
+      <div className="h-[80%] w-full ">
         <div className="flex flex-row w-full items-center justify-between px-2">
           <div
             className={` h-[20px] w-[20px] mb-4 text-white rounded-full 
@@ -57,7 +60,13 @@ const TaskPill = ({
         <div className="w-full flex h-[90%] flex-row">
           <p className="text-[21px] w-[90%] h-[90%] font-semibold">{details}</p>
           {showActions && (
-            <div className="h-[90%] w-[10%] items-center justify-around flex flex-col">
+            <motion.div
+              initial={{ y: -50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              exit={{ opacity: 0 }}
+              className="h-[90%] bg-[#c5c5c5] dark:bg-[#191919] ml-4 w-[15%]  rounded-md  items-center justify-around flex flex-col"
+            >
               <button
                 onClick={() => {
                   setAction("Edit");
@@ -67,7 +76,11 @@ const TaskPill = ({
               >
                 <img src={edit} alt="" />
               </button>
-              <button>
+              <button
+                onClick={() => {
+                  navigate(`/dashboard/calendar/view?id=${id}`);
+                }}
+              >
                 <img src={calendar} alt="" />
               </button>
               <button
@@ -78,12 +91,12 @@ const TaskPill = ({
               >
                 <img src={trash} alt="" />
               </button>
-            </div>
+            </motion.div>
           )}
         </div>
       </div>
 
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row justify-between mt-6">
         <button
           onClick={() => setCompleted()}
           className={` w-[30px] h-[30px] ${

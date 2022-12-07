@@ -3,7 +3,7 @@ import * as React from "react";
 const FilterComp = ({ setFiltered, filtered }) => {
   return (
     <div>
-      <label className="mr-2">Filter by:</label>
+      
       <select
         className="p-2 text-black dark:text-white border border-[#c5c5c5] dark:border-none rounded-md bg-white dark:bg-[#262626]"
         onChange={(e) => setFiltered(e.currentTarget.value)}

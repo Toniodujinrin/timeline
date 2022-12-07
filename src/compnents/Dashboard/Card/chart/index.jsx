@@ -14,6 +14,8 @@ const Charts = ({ urgent, regular, casual, completed }) => {
       colorScale={["#FF452C", "#ff9900", "#00FF47", "#0B63C5"]}
       responsive={true}
       height={400}
+      style={{labels:{color:"#ff9900"}}}
+      
       width={400}
       innerRadius={100}
       data={[

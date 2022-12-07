@@ -2,6 +2,7 @@ import React from "react";
 import { putTask } from "../../../../data-store";
 import { useState } from "react";
 import check from "../../../../assets/Icon.svg";
+import { toast } from "react-toastify";
 const Card = ({ task }) => {
   const [isComplete, setIsComplete] = useState(task.completed);
 
@@ -12,8 +13,29 @@ const Card = ({ task }) => {
         completed: !task.completed,
         details: task.details,
       });
+      if (data) {
+        toast.success("task successfuly marked as completed", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
     } catch (error) {
-      alert("could not mark task as complete");
+      toast.error("could not mark task as complete", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
   return (
@@ -25,7 +47,7 @@ const Card = ({ task }) => {
         }}
         className={`w-[20px] ${
           isComplete && "bg-timeline"
-        } hover:border-timeline h-[20px] rounded-full flex justify-center items-center border border-solid border-[#9fa2b4]`}
+        } border-timeline h-[20px] rounded-full flex justify-center items-center border border-solid `}
       >
         {isComplete && <img src={check} alt="" />}
       </button>

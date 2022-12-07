@@ -47,7 +47,7 @@ const TopNav = ({ setOpen }) => {
             <img className="w-[30px]  h-[30px]" src={hamburgerLight} alt="" />
           </button>
         </div>
-        <div className="w-[30%]">
+        <div className="w-[30%] flex justify-center">
           <img className="w-[100px] h-[50px]" src={logo} alt="" />
         </div>
         <div className="w-[30%]"></div>

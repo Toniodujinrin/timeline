@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const rootDir='https://timeline-backend.vercel.app/'
+
 const user =
   typeof localStorage.getItem("user") == "string" &&
   localStorage.getItem("user").length !== 0
@@ -14,7 +16,7 @@ export const config = {
 export async function getData() {
   try {
     const { data } = await axios.get(
-      `http://127.0.0.1:3200/users?email=${user.userEmail}`,
+      `${rootDir}users?email=${user.userEmail}`,
       config
     );
     console.log(`this is the data `);
@@ -23,13 +25,13 @@ export async function getData() {
       return data;
     } else return {};
   } catch (error) {
-    console.log(error);
+    throw new Error("could not get data from the server");
   }
 }
 export async function postTask(datareq) {
   try {
     const { data } = await axios.post(
-      `http://127.0.0.1:3200/tasks`,
+      `${rootDir}tasks`,
       datareq,
       config
     );
@@ -37,14 +39,14 @@ export async function postTask(datareq) {
       return data;
     } else return {};
   } catch (error) {
-    console.log(error);
+    throw new Error("could not create task");
   }
 }
 
 export async function putTask(datareq) {
   try {
     const { data } = await axios.put(
-      `http://127.0.0.1:3200/tasks`,
+      `${rootDir}tasks`,
       datareq,
       config
     );
@@ -52,14 +54,14 @@ export async function putTask(datareq) {
       return;
     } else return {};
   } catch (error) {
-    console.log(error);
+    throw new Error("could not update task");
   }
 }
 
 export async function deleteTask(datareq) {
   try {
     const { data } = await axios.delete(
-      `http://127.0.0.1:3200/tasks?task=${datareq}`,
+      `${rootDir}tasks?task=${datareq}`,
       config
     );
     if (data) {
@@ -73,7 +75,7 @@ export async function deleteTask(datareq) {
 export async function deleteUser(datareq) {
   try {
     const { data } = await axios.delete(
-      `http://127.0.0.1:3200/user?email=${datareq}`,
+      `${rootDir}users?email=${datareq}`,
       config
     );
     if (data) {
