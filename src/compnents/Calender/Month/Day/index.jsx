@@ -35,7 +35,7 @@ const Day = ({ day, rowIndex, Data, setTaskInfo, setPopUpShowing }) => {
                   setTaskInfo(task);
                   setPopUpShowing(true);
                 }}
-                className={` cursor-pointer text-white w-full h-fit p-[2px] rounded-md ${
+                className={` cursor-pointer text-white p-[0.5px] text-[9px]  lg:w-full h-fit lg:p-[2px] rounded-md ${
                   task.status == "urgent" && "bg-[#FF452C] "
                 } ${task.status == "casual" && "bg-[#00FF47]"} ${
                   task.status == "regular" && "bg-timeline"
