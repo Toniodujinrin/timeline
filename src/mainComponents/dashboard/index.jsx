@@ -1,11 +1,12 @@
 import Card from "../../compnents/Dashboard/Card";
-import { DataContext } from "../../NavWrapper";
+import { DataContext, UserContext } from "../../NavWrapper";
 
 import { useState, useContext, useEffect } from "react";
 import TaskCard from "../../compnents/Dashboard/taskCard";
 
 const Dashboard = () => {
   const data = useContext(DataContext);
+  const user = useContext(UserContext);
   const [call, setCall] = useState(false);
   const [Data, setData] = useState(data && data.tasks ? data.tasks : []);
 
@@ -18,9 +19,9 @@ const Dashboard = () => {
   return (
     <div className="flex flex-col h-screen items-center w-full mt-6">
       <div className="flex flex-row w-full mx-auto items-center justify-around">
-        <Card Data={Data} />
+        <Card user={user} Data={Data} />
       </div>
-      <TaskCard Data={Data} setCall={setCall} call={call} />
+      <TaskCard user={user} Data={Data} setCall={setCall} call={call} />
     </div>
   );
 };

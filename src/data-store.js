@@ -1,16 +1,15 @@
 import axios from "axios";
 
+import React from "react";
+
 const rootDir = "https://timeline-backend.vercel.app/";
 
-const user = JSON.parse(localStorage.getItem("user"));
-
-export const config = {
-  headers: {
-    token: user && user !== null ? user._id : 1234,
-  },
-};
-export async function getData() {
-  console.log(user);
+export async function getData(user) {
+  const config = {
+    headers: {
+      token: user && user !== null ? user._id : 1234,
+    },
+  };
   try {
     const { data } = await axios.get(
       `${rootDir}users?email=${user.userEmail}`,
@@ -25,7 +24,12 @@ export async function getData() {
     throw new Error("could not get data from the server");
   }
 }
-export async function postTask(datareq) {
+export async function postTask(datareq, user) {
+  const config = {
+    headers: {
+      token: user && user !== null ? user._id : 1234,
+    },
+  };
   try {
     const { data } = await axios.post(`${rootDir}tasks`, datareq, config);
     if (data) {
@@ -36,7 +40,12 @@ export async function postTask(datareq) {
   }
 }
 
-export async function putTask(datareq) {
+export async function putTask(datareq, user) {
+  const config = {
+    headers: {
+      token: user && user !== null ? user._id : 1234,
+    },
+  };
   try {
     const { data } = await axios.put(`${rootDir}tasks`, datareq, config);
     if (data) {
@@ -47,7 +56,12 @@ export async function putTask(datareq) {
   }
 }
 
-export async function deleteTask(datareq) {
+export async function deleteTask(datareq, user) {
+  const config = {
+    headers: {
+      token: user && user !== null ? user._id : 1234,
+    },
+  };
   try {
     const { data } = await axios.delete(
       `${rootDir}tasks?task=${datareq}`,
@@ -61,7 +75,12 @@ export async function deleteTask(datareq) {
   }
 }
 
-export async function deleteUser(datareq) {
+export async function deleteUser(datareq, user) {
+  const config = {
+    headers: {
+      token: user && user !== null ? user._id : 1234,
+    },
+  };
   try {
     const { data } = await axios.delete(
       `${rootDir}users?email=${datareq}`,

@@ -9,7 +9,7 @@ import FilterComp from "../../compnents/allTaskComponents/filter";
 import Sort from "../../compnents/allTaskComponents/Sort";
 import SearchBar from "../../compnents/allTaskComponents/SearchBar";
 import dayjs from "dayjs";
-import { DataContext } from "../../NavWrapper";
+import { DataContext, UserContext } from "../../NavWrapper";
 import { postTask, putTask, deleteTask } from "../../data-store";
 import { useParams, useLocation, useSearchParams } from "react-router-dom";
 import { useQuery } from "react-query";
@@ -21,6 +21,7 @@ const All = ({}) => {
   const params = useParams();
   const location = useLocation();
   const [Data, setData] = useState(data && data.tasks.length ? data.tasks : []);
+  const user = useContext(UserContext);
 
   const [taskData, setTaskData] = useState(
     data && data.tasks.length ? data.tasks : []
@@ -143,7 +144,7 @@ const All = ({}) => {
     const originalData = [...Data];
 
     try {
-      const data = await postTask(TaskObject);
+      const data = await postTask(TaskObject, user);
       if (data) {
         toast.success("task successfuly created", {
           position: "top-right",
@@ -182,8 +183,7 @@ const All = ({}) => {
     taskObject.details = inputData.details;
     taskObject.status = inputData.status;
     try {
-      console.log(taskObject);
-      const data = await putTask(taskObject);
+      const data = await putTask(taskObject, user);
       if (data) {
         toast.success("task successfuly updated", {
           position: "top-right",
@@ -219,7 +219,7 @@ const All = ({}) => {
     setTaskData(filteredData);
 
     try {
-      const data = await deleteTask(id);
+      const data = await deleteTask(id, user);
       if (data) {
         toast.success("task successfuly deleted", {
           position: "top-right",

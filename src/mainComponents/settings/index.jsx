@@ -3,8 +3,8 @@ import { useState, useContext } from "react";
 import LoadButton from "../../compnents/LoadingButton";
 import Joi from "joi";
 import axios from "axios";
-import { DataContext } from "../../NavWrapper";
-import { config } from "../../data-store";
+import { DataContext, UserContext } from "../../NavWrapper";
+
 import { deleteUser } from "../../data-store";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ import { motion } from "framer-motion";
 
 const Settings = () => {
   const navigate = useNavigate();
+  const user = useContext(UserContext);
   const [deletePopUp, setDeletePopUp] = useState(false);
   const [shouldDelete, setShouldDelete] = useState(false);
   const userData = useContext(DataContext);
@@ -88,7 +89,11 @@ const Settings = () => {
         const data = await axios.put(
           "https://timeline-backend.vercel.app/users",
           payload,
-          config
+          {
+            headers: {
+              token: user && user !== null ? user._id : 1234,
+            },
+          }
         );
         if (data) {
           toast.success("user successfuly updated", {

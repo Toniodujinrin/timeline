@@ -1,18 +1,23 @@
 import React from "react";
 import { putTask } from "../../../../data-store";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import check from "../../../../assets/Icon.svg";
 import { toast } from "react-toastify";
+import { UserContext } from "../../../../NavWrapper";
+
 const Card = ({ task }) => {
   const [isComplete, setIsComplete] = useState(task.completed);
-
+  const user = useContext(UserContext);
   const setComplete = async () => {
     try {
-      const data = await putTask({
-        taskId: task._id,
-        completed: !task.completed,
-        details: task.details,
-      });
+      const data = await putTask(
+        {
+          taskId: task._id,
+          completed: !task.completed,
+          details: task.details,
+        },
+        user
+      );
       if (data) {
         toast.success("task successfuly marked as completed", {
           position: "top-right",

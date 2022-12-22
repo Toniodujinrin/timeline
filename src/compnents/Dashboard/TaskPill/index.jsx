@@ -1,6 +1,6 @@
 import React from "react";
 import { format, formatDistance } from "date-fns";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import edit from "../../../assets/edit.svg";
 import calendar from "../../../assets/calender.svg";
 import trash from "../../../assets/trash.svg";
@@ -8,6 +8,7 @@ import check from "../../../assets/Icon.svg";
 import { putTask } from "../../../data-store";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../../NavWrapper";
 
 const TaskPill = ({
   details,
@@ -21,17 +22,21 @@ const TaskPill = ({
   id,
   setPopUp,
 }) => {
+  const user = useContext(UserContext);
   const [isComplete, setComplete] = useState(completed);
   const navigate = useNavigate();
   const setCompleted = async () => {
     setComplete(!isComplete);
 
     try {
-      const data = await putTask({
-        taskId: id,
-        completed: !completed,
-        details: details,
-      });
+      const data = await putTask(
+        {
+          taskId: id,
+          completed: !completed,
+          details: details,
+        },
+        user
+      );
     } catch (error) {
       alert("could not mark task as complete");
     }
