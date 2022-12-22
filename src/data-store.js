@@ -1,12 +1,8 @@
 import axios from "axios";
 
-const rootDir='https://timeline-backend.vercel.app/'
+const rootDir = "https://timeline-backend.vercel.app/";
 
-const user =
-  typeof localStorage.getItem("user") == "string" &&
-  localStorage.getItem("user").length !== 0
-    ? JSON.parse(localStorage.getItem("user"))
-    : null;
+const user = JSON.parse(localStorage.getItem("user"));
 
 export const config = {
   headers: {
@@ -14,6 +10,7 @@ export const config = {
   },
 };
 export async function getData() {
+  console.log(user);
   try {
     const { data } = await axios.get(
       `${rootDir}users?email=${user.userEmail}`,
@@ -30,11 +27,7 @@ export async function getData() {
 }
 export async function postTask(datareq) {
   try {
-    const { data } = await axios.post(
-      `${rootDir}tasks`,
-      datareq,
-      config
-    );
+    const { data } = await axios.post(`${rootDir}tasks`, datareq, config);
     if (data) {
       return data;
     } else return {};
@@ -45,11 +38,7 @@ export async function postTask(datareq) {
 
 export async function putTask(datareq) {
   try {
-    const { data } = await axios.put(
-      `${rootDir}tasks`,
-      datareq,
-      config
-    );
+    const { data } = await axios.put(`${rootDir}tasks`, datareq, config);
     if (data) {
       return;
     } else return {};

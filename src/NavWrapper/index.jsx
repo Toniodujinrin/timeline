@@ -7,21 +7,45 @@ import Dashboard from "../mainComponents/dashboard";
 import All from "../mainComponents/all";
 import Calender from "./../mainComponents/calender/index";
 import { useQuery } from "react-query";
-import { getData } from "../data-store";
+
 import Settings from "../mainComponents/settings";
+import { useEffect } from "react";
+import axios from "axios";
 
 export const DataContext = React.createContext();
 
 const Wrapper = ({ children }) => {
   const navigate = useNavigate();
-  const { data, status } = useQuery("tasks", getData);
   const user =
     typeof localStorage.getItem("user") == "string" &&
     localStorage.getItem("user").length !== 0
       ? JSON.parse(localStorage.getItem("user"))
       : null;
+
+  const config = {
+    headers: {
+      token: user && user !== null ? user._id : 1234,
+    },
+  };
+  const rootDir = "https://timeline-backend.vercel.app/";
+  const getData = async () => {
+    try {
+      const { data } = await axios.get(
+        `${rootDir}users?email=${user.userEmail}`,
+        config
+      );
+
+      if (data) {
+        return data;
+      } else return {};
+    } catch (error) {
+      throw new Error("could not get data from the server");
+    }
+  };
+
+  const { data, status } = useQuery("user", getData);
   const [isShowing, setShowing] = useState(false);
-  const [Data, setData] = useState(data);
+
   const setOpen = () => {
     setShowing(!isShowing);
   };
@@ -68,7 +92,12 @@ const Wrapper = ({ children }) => {
               )}
             </div>
           </div>
-          <div className=" lg:hidden w-full h-full pt-[80px] ">
+          <div
+            onClick={() => {
+              setShowing(false);
+            }}
+            className=" lg:hidden w-full h-full pt-[80px]  "
+          >
             {status == "loading" ? (
               <div className="h-screen w-full flex justify-center items-center">
                 <div className="spinner-5 mb-[80px]"></div>

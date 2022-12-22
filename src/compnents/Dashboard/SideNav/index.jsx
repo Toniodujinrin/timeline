@@ -32,8 +32,9 @@ const getIcon = (fill, iconPath) => {
 const NavButton = ({ isActive, text, path, onClick }) => {
   const navigate = useNavigate();
   const logout = () => {
-    navigate("/login");
-    localStorage.removeItem("users");
+    console.log("chill");
+    navigate("/login", { replace: true });
+    localStorage.removeItem("user");
   };
   return (
     <Link to={path}>
@@ -81,13 +82,17 @@ const SideBar = ({ isShowing, setOpen }) => {
             isActive={location.pathname == "/dashboard/calendar"}
             path="/dashboard/calendar"
           />
-       
+
           <NavButton
             text="Settings"
             isActive={location.pathname == "/dashboard/settings"}
             path="/dashboard/settings"
           />
-          <NavButton text="Log out" isActive={location.pathname == "/login"} path="/login" />
+          <NavButton
+            text="Log out"
+            isActive={location.pathname == "/login"}
+            path="/login"
+          />
 
           <div
             className={` transition-[100ms] inline-flex w-full h-[56px]  font-medium poppinsFont text-[16px]   px-[16px] items-center gap-x-[20px]`}
@@ -137,7 +142,7 @@ const SideBar = ({ isShowing, setOpen }) => {
               path="/dashboard/calendar"
               onClick={setOpen}
             />
-           
+
             <NavButton
               text="Settings"
               isActive={location.pathname == "/dashboard/settings"}
