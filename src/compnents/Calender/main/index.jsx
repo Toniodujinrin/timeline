@@ -49,7 +49,7 @@ const MainCalender = ({ Data }) => {
             </div>
             <div className="h-full">
               {taskInfo && (
-                <div className="flex h-full flex-col justify-between">
+                <div className="flex text-black dark:text-white h-full flex-col justify-between">
                   <div>
                     <div className="flex flex-row gap-x-4 items-center">
                       <div
