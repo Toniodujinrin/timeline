@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { getData, putTask } from "../../../data-store";
 
 import { useState } from "react";
+import dayjs from "dayjs";
 
 import Card from "./cardDetails/index";
 
@@ -13,8 +14,7 @@ const TaskCard = ({ Data, setCall, call }) => {
 
   const todaysTask = dashboardData.filter(
     (task) =>
-      new Date(task.due).toISOString().slice(0, 10) ===
-      date.toISOString().slice(0, 10)
+      dayjs(task.due).format("DD/MM/YYYY") == dayjs().format("DD/MM/YYYY")
   );
 
   return (
